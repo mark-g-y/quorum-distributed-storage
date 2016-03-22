@@ -1,0 +1,22 @@
+{
+	"num_nodes" : 3,
+	"read_quorum" : 2,
+	"write_quorum" : 2,
+	"replicas" : [
+		{
+			"id" : 1,
+			"domain" : "localhost",
+			"port" : 3001
+		},
+		{
+			"id" : 2,
+			"domain" : "localhost",
+			"port" : 3002
+		},
+		{
+			"id" : 3,
+			"domain" : "localhost",
+			"port" : 3003
+		}
+	]
+}
