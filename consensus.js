@@ -3,12 +3,28 @@ var fs = require('fs');
 var querystring = require('querystring');
 var httpjson = require('./httpjson');
 
+var args = process.argv.slice(2);
+var id = args[0];
+
 var config = JSON.parse(fs.readFileSync('config', 'utf8'));
 
 var numNodes = config['num_nodes'];
 var replicas = config['replicas'];
 var readQuorum = config['read_quorum'];
 var writeQuorum = config['write_quorum'];
+
+// stagger replicas so not every consensus node is writing to same set of storage nodes
+var myIndex = null;
+for (var i = 0; i < replicas.length; i++) {
+	if (replicas[i]['id'] == id) {
+		myIndex = i;
+		break;
+	}
+}
+if (myIndex != null) {
+	replicas = replicas.concat(replicas.slice(0, myIndex));
+	replicas = replicas.slice(myIndex);
+}
 
 exports.read = function read(sreq, res, next) {
 	var responses = [];

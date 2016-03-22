@@ -8,7 +8,7 @@ var server = express();
 server.use(bodyParser.json());
 
 var args = process.argv.slice(2);
-var port = args[0];
+var port = args[1];
 
 server.get('/read', consensus.read);
 server.get('/write', consensus.write);
