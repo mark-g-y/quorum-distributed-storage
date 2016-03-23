@@ -10,10 +10,10 @@ server.use(bodyParser.json());
 var args = process.argv.slice(2);
 
 if (args.length != 2 && args.length != 4) {
-	console.log('Error: please use either of the following commands:');
-	console.log('    If storing data in memory, specify <current_node_id> <port> as command line arguments');
-	console.log('    If storing data in MongoDB, specify <current_node_id> <port> <mongoHost> <mongoPort> as command line arguments');
-	process.exit(1);
+    console.log('Error: please use either of the following commands:');
+    console.log('    If storing data in memory, specify <current_node_id> <port> as command line arguments');
+    console.log('    If storing data in MongoDB, specify <current_node_id> <port> <mongoHost> <mongoPort> as command line arguments');
+    process.exit(1);
 }
 
 var port = args[1];
