@@ -8,10 +8,19 @@ var id = args[0];
 
 var config = JSON.parse(fs.readFileSync('config', 'utf8'));
 
-var numNodes = config['num_nodes'];
 var replicas = config['replicas'];
+var numNodes = replicas.length;
 var readQuorum = config['read_quorum'];
 var writeQuorum = config['write_quorum'];
+
+if (readQuorum + writeQuorum <= numNodes) {
+	console.log('Error: in config file, read and write quorums added together must be greater than number of replicas');
+	process.exit(1);
+}
+if (writeQuorum <= numNodes / 2) {
+	console.log('Error: write quorum must be greater than numNodes / 2');
+	process.exit(1);
+}
 
 // stagger replicas so not every consensus node is writing to same set of storage nodes
 var myIndex = null;

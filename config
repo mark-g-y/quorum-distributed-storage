@@ -1,5 +1,4 @@
 {
-	"num_nodes" : 3,
 	"read_quorum" : 2,
 	"write_quorum" : 2,
 	"replicas" : [
