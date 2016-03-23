@@ -80,23 +80,29 @@ exports.write = function write(sreq, res, next) {
 		'value' : sreq.query.value,
 		'timestamp' : new Date().getTime()
 	});
+	function onWrite(response) {
+		body = JSON.parse(response);
+		if (body['status'] != 'success') {
+			onWriteFail();
+			return;
+		}
+		numWriteSucceed++;
+		responses.push(response);
+		if (numWriteSucceed == writeQuorum) {
+			res.send({'status' : 'success'});
+		}
+	}
+	function onWriteFail() {
+		numWriteFail++;
+		if (numWriteFail > numNodes - writeQuorum) {
+			res.send({'status' : 'fail'});
+		} else {
+			var replica = replicas[writeQuorum - 1 + numWriteFail];
+			writeToNode(replica['domain'], replica['port'], writeData);
+		}
+	}
 	function writeToNode(domain, port, writeData) {
-		httpjson.post(domain, port, '/write_vote', writeData, function(response) {
-			body = JSON.parse(response);
-			numWriteSucceed++;
-			responses.push(response);
-			if (numWriteSucceed == writeQuorum) {
-				res.send({'status' : 'success'});
-			}
-		}, function() {
-			numWriteFail++;
-			if (numWriteFail > numNodes - writeQuorum) {
-				res.send({'status' : 'fail'});
-			} else {
-				var replica = replicas[writeQuorum - 1 + numWriteFail];
-				writeToNode(replica['domain'], replica['port'], writeData);
-			}
-		});
+		httpjson.post(domain, port, '/write_vote', writeData, onWrite, onWriteFail);;
 	}
 	for (var i = 0; i < writeQuorum; i++) {
 		var replica = replicas[i];
