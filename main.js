@@ -19,7 +19,7 @@ if (args.length != 2 && args.length != 4) {
 var port = args[1];
 
 server.get('/read', consensus.read);
-server.get('/write', consensus.write);
+server.post('/write', consensus.write);
 
 server.get('/read_vote', storage.read);
 server.post('/write_vote', storage.write);
