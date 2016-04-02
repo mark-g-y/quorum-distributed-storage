@@ -14,7 +14,7 @@ To run:
 
 Using the API:
 * Reading from storage
- * Make GET request to /read?key=key_value
+ * Make GET request to /read?key=your_key
  * Output format: { "result" : value }
 * Writing to storage
  * Make POST request to /write
