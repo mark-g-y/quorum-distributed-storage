@@ -75,9 +75,10 @@ exports.write = function write(sreq, res, next) {
     responses = [];
     var numWriteSucceed = 0;
     var numWriteFail = 0;
+    var body = sreq.body;
     var writeData = JSON.stringify({
-        'key' : sreq.query.key, 
-        'value' : sreq.query.value,
+        'key' : body.key, 
+        'value' : body.value,
         'timestamp' : new Date().getTime()
     });
     function onWrite(response) {

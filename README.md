@@ -10,3 +10,12 @@ To run:
 * On each replica, type "node main.js <current_node_id> <port> <mongodb_host> <mongodb_port>"
  * Note that the <current_node_id> corresponds with an ID specified in the config file
  * The MongoDB host and port are optional - if you leave them blank, the system will default to in-memory storage
+
+Using the API:
+* Reading from storage
+ * Make GET request to /read?<key>
+ * Output format: { "result" : <value> }
+* Writing to storage
+ * Make POST request to /write
+ * POST body should be in following JSON format: { "key" : <key>, "value" : <value> }
+ * Remember to update headers - Content-Type: application/json
